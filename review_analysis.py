@@ -36,14 +36,15 @@ def pre_process(text,stemmer):
     Takes in a string of text, then performs the following:
     1. Remove all punctuation
     2. Remove all stopwords
+    3. Changes all string to lower case
     3. Return the list of words after stemming
     '''
     nopunc = [char for char in text if char not in string.punctuation]
     nopunc = ''.join(nopunc)
     
-    return [stemmer.stem(word) for word in nopunc.split() if word.lower() not in stopwords.words('english')]
+    return [stemmer.stem(word.lower()) for word in nopunc.split() if word.lower() not in stopwords.words('english')]
 
 #Sample pre-processing
 stemmer= PorterStemmer()
-sample_text = "Hey there! This is a sample review, which happens or happening to contain punctuations."
-print(pre_process(sample_text,stemmer)) # ['hey', 'sampl', 'review', 'happen', 'happen', 'contain', 'punctuat']
+sample_text = "Hey there! This is a sample review, which happens or happening to contain or CONTAINS punctuations."
+print(pre_process(sample_text,stemmer)) # ['hey', 'sampl', 'review', 'happen', 'happen', 'contain', 'contain' 'punctuat']
