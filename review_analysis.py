@@ -9,3 +9,6 @@ from sklearn.naive_bayes import MultinomialNB
 
 #Read data
 yelp = pd.read_csv('yelp.csv')
+yelp.shape
+yelp.head()
+
