@@ -1,3 +1,3 @@
 This project classifies yelp reviews as positive or negative
 
-Dataset Download : https://www.dropbox.com/s/wc6rzl1a2os721d/yelp.csv?dl=0
+Dataset Download : https://www.kaggle.com/c/yelp-recsys-2013/data 
