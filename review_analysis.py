@@ -13,7 +13,7 @@ from nltk.stem import PorterStemmer
 import string
 
 #Read data
-yelp = pd.read_csv('yelp.csv')
+yelp = pd.read_csv('yelp_academic_dataset_review.csv')
 yelp.shape
 yelp.head()
 
@@ -32,6 +32,24 @@ for i in range(0,len(y)):
         y[i] = 0 # Negative
 print(y[:5])
 print(y.value_counts())
+
+balanced_x = []
+balanced_y = []
+balanced_number = 10000
+positive_examples = 0
+negative_examples = 0
+i = 0
+while(positive_examples < balanced_number or negative_examples < balanced_number):
+    i = i + 1
+    if(y[i] == 1 and positive_examples < 10000 ):
+        balanced_x.append(X[i])
+        balanced_y.append(y[i])
+        positive_examples = positive_examples + 1
+    else:
+        balanced_x.append(X[i])
+        balanced_y.append(y[i])
+        negative_examples = negative_examples + 1
+print(len(balanced_y)) # 20000
 
 #Preprocessing
 def pre_process(text):
@@ -54,11 +72,11 @@ sample_text = "Hey there! This is a sample review, which happens or happening to
 print(pre_process(sample_text)) # ['hey', 'sampl', 'review', 'happen', 'happen', 'contain', 'contain' 'punctuat']
 
 #Bag of words Feauture Extraction
-bow_transformer = CountVectorizer(analyzer=pre_process).fit(X)
-X = bow_transformer.transform(X)
+bow_transformer = CountVectorizer(analyzer=pre_process).fit(balanced_x)
+X = bow_transformer.transform(balanced_x)
 
 #Splitting dataset by bag of words feature
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=101)
+X_train, X_test, y_train, y_test = train_test_split(balanced_x, balanced_y, test_size=0.2, random_state=101)
 
 #Training and Fitting SVM Model
 svm_model = SVC(kernel='linear')
@@ -66,5 +84,5 @@ svm_model.fit(X_train,y_train)
 preds = svm_model.predict(X_test)
 print(confusion_matrix(y_test, preds))
 print(classification_report(y_test, preds))
-print(accuracy_score(y_test,preds)) #0.78
+print(accuracy_score(y_test,preds)) #0.80
 
