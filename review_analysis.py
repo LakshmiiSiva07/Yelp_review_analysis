@@ -66,6 +66,18 @@ def pre_process(text):
     
     return [stemmer.stem(word.lower()) for word in nopunc.split() if word.lower() not in stopwords.words('english')]
 
+def pre_process_with_stop_words(text):
+    '''
+    Takes in a string of text, then performs the following:
+    1. Remove all punctuation
+    3. Return the list of words after stemming
+    '''
+    stemmer= PorterStemmer()
+    nopunc = [char for char in text if char not in string.punctuation]
+    nopunc = ''.join(nopunc)
+    
+    return [stemmer.stem(word.lower()) for word in nopunc.split()]
+
 #Sample pre-processing
 
 sample_text = "Hey there! This is a sample review, which happens or happening to contain or CONTAINS punctuations."
