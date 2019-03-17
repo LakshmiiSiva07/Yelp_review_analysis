@@ -52,7 +52,7 @@ while(positive_examples < balanced_number or negative_examples < balanced_number
 print(len(balanced_y)) # 20000
 
 #Preprocessing
-def pre_process(text):
+def pre_process_baseline(text):
     '''
     Takes in a string of text, then performs the following:
     1. Remove all punctuation
@@ -70,13 +70,27 @@ def pre_process_with_stop_words(text):
     '''
     Takes in a string of text, then performs the following:
     1. Remove all punctuation
-    3. Return the list of words after stemming
+    2. Return the list of words after stemming
     '''
     stemmer= PorterStemmer()
     nopunc = [char for char in text if char not in string.punctuation]
     nopunc = ''.join(nopunc)
     
     return [stemmer.stem(word.lower()) for word in nopunc.split()]
+
+from nltk.stem import WordNetLemmatizer
+def pre_process_lemmatize(text):
+    '''
+    Takes in a string of text, then performs the following:
+    1. Remove all punctuation
+    2. Remove all stopwords
+    3. Return the list of words after lemmatization
+    '''
+    lemmatizer = WordNetLemmatizer()
+    nopunc = [char for char in text if char not in string.punctuation]
+    nopunc = ''.join(nopunc)
+    
+    return [lemmatizer.lemmatize(word.lower()) for word in nopunc.split() if word.lower() not in stopwords.words('english')]
 
 #Sample pre-processing
 
